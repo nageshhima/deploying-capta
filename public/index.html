@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Under Construction</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+            color: #333;
+            text-align: center;
+        }
+        h1 {
+            font-size: 3em;
+        }
+        .hidden {
+            display: none;
+        }
+        .g-recaptcha {
+            margin-top: 20px;
+        }
+    </style>
+    <!-- Load Cloudflare Turnstile Script -->
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+</head>
+<body>
+    <div id="content" class="hidden">
+        <h1>Page Under Construction</h1>
+        <p>We're working hard to get this page up and running. Please check back later!</p>
+    </div>
+
+    <!-- CAPTCHA Widget -->
+    <div class="g-recaptcha" data-sitekey="0x4AAAAAAAzdcIooMfjOeJEr"></div>
+
+    <!-- Verify Button -->
+    <button onclick="verifyCaptcha()">Verify</button>
+
+    <script>
+        function verifyCaptcha() {
+            // Get the response from the Turnstile widget
+            var captchaResponse = grecaptcha.getResponse();
+            
+            // Check if the CAPTCHA was solved
+            if (captchaResponse.length === 0) {
+                alert('Please complete the CAPTCHA.');
+            } else {
+                // Send the response to the server for validation
+                fetch('/verify', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ captchaResponse })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        document.getElementById('content').classList.remove('hidden');
+                    } else {
+                        alert('CAPTCHA validation failed. Please try again.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error verifying CAPTCHA:', error);
+                    alert('An error occurred. Please try again later.');
+                });
+            }
+        }
+    </script>
+</body>
+</html>
