@@ -7,12 +7,12 @@
     "start": "node index.js"
   },
   "dependencies": {
-    "express": "^4.17.1",  // Express is listed here
-    "node-fetch": "^3.0.0" // Any other dependencies
+    "express": "^4.17.1",  
+    "node-fetch": "^3.0.0"
   },
   "devDependencies": {},
   "engines": {
-    "node": "16.x"  // Specify the Node.js version for Render (optional)
+    "node": "16.x"
   },
   "author": "",
   "license": "ISC"
